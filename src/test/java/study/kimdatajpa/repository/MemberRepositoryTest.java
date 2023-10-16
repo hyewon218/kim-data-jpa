@@ -8,6 +8,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.kimdatajpa.dto.MemberDto;
@@ -152,5 +156,34 @@ public class MemberRepositoryTest {
 
         Optional<Member> findMember = memberRepository.findOptionalByUsername("AAA");
         System.out.println("findMember = " + findMember);
+    }
+
+    // 스프링 데이터 JPA 페이징과 정렬 테스트
+    @Test
+    public void paging() {
+        //given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 10));
+        memberRepository.save(new Member("member4", 10));
+        memberRepository.save(new Member("member5", 10));
+
+        int age = 10;
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Direction.DESC, "username"));
+
+        //when
+        Page<Member> page = memberRepository.findByAge(age, pageRequest);
+        // 페이지를 유지하면서 엔티티를 DTO 로 변환하기
+        Page<MemberDto> toMap = page.map(
+            member -> new MemberDto(member.getId(), member.getUsername(), null));
+
+        //then
+        List<Member> content = page.getContent(); // 조회된 데이터
+        assertThat(content.size()).isEqualTo(3); // 조회된 데이터 수
+        assertThat(page.getTotalElements()).isEqualTo(5); // 전체 데이터 수
+        assertThat(page.getNumber()).isEqualTo(0); // 페이지 번호
+        assertThat(page.getTotalPages()).isEqualTo(2); // 전체 페이지 번호
+        assertThat(page.isFirst()).isTrue(); // 첫번째 항목인가?
+        assertThat(page.hasNext()).isTrue(); // 다음 페이지가 있는가?
     }
 }
