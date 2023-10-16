@@ -11,10 +11,12 @@ import jakarta.persistence.NamedQuery;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "username", "age"}) // 객체를 찍을 때 출력 됨
 @NamedQuery( // @NamedQuery 어노테이션으로 NamedQuery 정의
