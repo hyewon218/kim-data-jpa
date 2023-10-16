@@ -14,4 +14,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 스프링 데이터 JPA 로 NamedQuery 호출
     @Query(name = "Member.findByUsername") // 생략가능
     List<Member> findByUsername(@Param("username") String username);
+
+    // 메서드에 JPQL 쿼리 작성
+    @Query("select m from Member m where m.username = :username and m.age = :age")
+    List<Member> findUser(@Param("username") String username, @Param("age") int age);
 }
