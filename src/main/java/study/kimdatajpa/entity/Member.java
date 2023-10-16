@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQuery;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,10 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "username", "age"}) // 객체를 찍을 때 출력 됨
+@NamedQuery( // @NamedQuery 어노테이션으로 NamedQuery 정의
+    name="Member.findByUsername",
+    query="select m from Member m where m.username = :username"
+)
 public class Member {
 
     @Id
