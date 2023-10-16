@@ -2,6 +2,7 @@ package study.kimdatajpa.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,4 +34,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 컬렉션 파라미터 바인딩 (Collection 타입으로 in절 지원)
     @Query("select m from Member m where m.username in :names")
     List<Member> findByNames(@Param("names") Collection<String> names);
+
+    // 반환 타입
+    List<Member> findListByUsername(String username); // 컬렉션
+
+    Member findMemberByUsername(String username); // 단건
+
+    Optional<Member> findOptionalByUsername(String name); // 단건 Optional
 }
