@@ -2,6 +2,8 @@ package study.kimdatajpa.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +27,8 @@ public class MemberRepositoryTest {
 
     @Autowired MemberRepository memberRepository;
     @Autowired TeamRepository teamRepository;
-    /*@PersistenceContext
-    EntityManager em; // 영속성 컨텍스트*/
+    @PersistenceContext
+    EntityManager em; // 영속성 컨텍스트
 
     @Test
     public void testMember() {
@@ -142,7 +144,7 @@ public class MemberRepositoryTest {
         memberRepository.save(m1);
         memberRepository.save(m2);
 
-        List<Member> result = memberRepository.findByNames(Arrays.asList("AAA","BBB"));
+        List<Member> result = memberRepository.findByNames(Arrays.asList("AAA", "BBB"));
         for (Member member : result) {
             System.out.println("member = " + member);
         }
@@ -209,5 +211,33 @@ public class MemberRepositoryTest {
 
         //then
         assertThat(resultCount).isEqualTo(3);
+    }
+
+    @Test
+    public void findMemberLazy() {
+        //given
+        //member1 -> teamA
+        //member2 -> teamB
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+        memberRepository.save(new Member("member1", 10, teamA));
+        //memberRepository.save(new Member("member1", 10, teamB)); // findEntityGraphByUsername 테스트
+        memberRepository.save(new Member("member2", 20, teamB));
+
+        em.flush();
+        em.clear();
+
+        //when (N + 1 문제 발생)
+        //select Member 1
+        List<Member> members = memberRepository.findAll();
+        //List<Member> members = memberRepository.findMemberFetchJoin();
+        //List<Member> members = memberRepository.findEntityGraphByUsername("member1");
+
+        //then
+        for (Member member : members) {
+            member.getTeam().getName();
+        }
     }
 }
