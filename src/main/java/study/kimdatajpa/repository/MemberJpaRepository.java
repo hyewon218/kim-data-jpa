@@ -25,14 +25,17 @@ public class MemberJpaRepository {
     public void delete(Member member) {
         em.remove(member);
     }
+
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class)
             .getResultList();
     }
+
     public Optional<Member> findById(Long id) {
         Member member = em.find(Member.class, id);
         return Optional.ofNullable(member);
     }
+
     public long count() {
         return em.createQuery("select count(m) from Member m", Long.class)
             .getSingleResult();
@@ -67,5 +70,13 @@ public class MemberJpaRepository {
         return em.createQuery("select count(m) from Member m where m.age = :age", Long.class)
             .setParameter("age", age)
             .getSingleResult();
+    }
+
+    // 순수 JPA 를 사용한 벌크성 수정 쿼리
+    public int bulkAgePlus(int age) {
+        return em.createQuery(
+                "update Member m set m.age = m.age + 1 where m.age >= :age")
+            .setParameter("age", age)
+            .executeUpdate();
     }
 }

@@ -23,9 +23,10 @@ import study.kimdatajpa.entity.Team;
 @Rollback(false)
 public class MemberRepositoryTest {
 
-    @Autowired
-    MemberRepository memberRepository;
-    TeamRepository teamRepository;
+    @Autowired MemberRepository memberRepository;
+    @Autowired TeamRepository teamRepository;
+    /*@PersistenceContext
+    EntityManager em; // 영속성 컨텍스트*/
 
     @Test
     public void testMember() {
@@ -185,5 +186,28 @@ public class MemberRepositoryTest {
         assertThat(page.getTotalPages()).isEqualTo(2); // 전체 페이지 번호
         assertThat(page.isFirst()).isTrue(); // 첫번째 항목인가?
         assertThat(page.hasNext()).isTrue(); // 다음 페이지가 있는가?
+    }
+
+    // 스프링 데이터 JPA 를 사용한 벌크성 수정 쿼리 테스트
+    @Test
+    public void bulkUpdate() {
+        //given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 19));
+        memberRepository.save(new Member("member3", 20));
+        memberRepository.save(new Member("member4", 21));
+        memberRepository.save(new Member("member5", 40));
+        //when
+        int resultCount = memberRepository.bulkAgePlus(20);
+        //em.flush(); // 영속성 컨텍스트의 변경 내용들을 DB에 반영 -> 이미 하고 있음
+        //em.clear(); // 영속성 컨텍스트 초기화 -> 대신에 @Modifying(clearAutomatically = true)
+
+        //데이터 확인
+        List<Member> result = memberRepository.findByUsername("member5");
+        Member member5 = result.get(0);
+        System.out.println("member5 = " + member5);
+
+        //then
+        assertThat(resultCount).isEqualTo(3);
     }
 }
