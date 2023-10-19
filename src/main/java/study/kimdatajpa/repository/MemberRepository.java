@@ -17,7 +17,7 @@ import org.springframework.data.repository.query.Param;
 import study.kimdatajpa.dto.MemberDto;
 import study.kimdatajpa.entity.Member;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
     // 스프링 데이터 JPA
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
