@@ -1,6 +1,5 @@
 package study.kimdatajpa.controller;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +38,7 @@ public class MemberController {
         return memberRepository.findAll(pageable).map(MemberDto::new); // Page 내용을 DTO 로 변환
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         //memberRepository.save(new Member("userA")); // 도메인 클래스 컨버터 테스트
         for (int i = 0; i < 100; i++) {
