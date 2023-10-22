@@ -95,4 +95,10 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     // Lock
     @Lock(LockModeType.PESSIMISTIC_WRITE) // 비관적 Lock, 쓰기 Lock -> select ~ for update (동시성 문제 해결)
     List<Member> findLockByUsername(String name);
+
+    // Projections
+    //List<UsernameOnly> findProjectionsByUsername(String username);
+    //List<UsernameOnlyDto> findProjectionsByUsername(String username);
+    <T> List<T> findProjectionsByUsername(String username, Class<T> type);
+
 }
