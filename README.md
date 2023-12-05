@@ -5,3 +5,4 @@
 1. [프로젝트 환경설정](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/01.md)
 2. [예제 도메인 모델](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/02.md)
 3. [공통 인터페이스 기능](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/03.md)
+4. [쿼리 메소드 기능](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/04.md)
