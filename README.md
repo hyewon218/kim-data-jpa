@@ -7,3 +7,4 @@
 3. [공통 인터페이스 기능](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/03.md)
 4. [쿼리 메소드 기능](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/04.md)
 5. [확장 기능](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/05.md)
+6. [스프링 데이터 JPA 분석](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/06.md)
