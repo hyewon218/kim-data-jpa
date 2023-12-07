@@ -8,3 +8,4 @@
 4. [쿼리 메소드 기능](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/04.md)
 5. [확장 기능](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/05.md)
 6. [스프링 데이터 JPA 분석](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/06.md)
+7. [나머지 기능들](https://github.com/hyewon218/kim-data-jpa/blob/master/docs/07.md)
